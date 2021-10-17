@@ -77,7 +77,7 @@ class Home extends Component {
           <List>
             {recipes.map((recipe) => (
               <ListItem key={recipe.id}>
-                <ListItemText primary={recipe.name} />
+                <ListItemText primary={recipe.name} onClick={() => this.props.getRecipeById(recipe.id)}/>
               </ListItem>
             ))}
           </List>
@@ -103,6 +103,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       searchRecipes: actions.searchRecipes,
+      getRecipeById: actions.getRecipeById,
     },
     dispatch
   )

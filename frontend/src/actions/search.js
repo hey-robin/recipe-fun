@@ -16,7 +16,7 @@ const failedSearch = (payload) => ({
   payload,
 })
 
-export const executeSearch = async (name, ingredients) => {
+const executeSearch = async (name, ingredients) => {
   const response = await fetch("/api/search", {
     method: "POST",
     headers: {
