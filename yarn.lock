@@ -2799,7 +2799,6 @@ __metadata:
     "@typescript-eslint/eslint-plugin": 2.24.0
     "@typescript-eslint/parser": 2.24.0
     babel-eslint: 10.1.0
-    body-parser: 1.19.0
     esbuild: 0.12.18
     esbuild-register: 2.6.0
     eslint: 6.8.0
