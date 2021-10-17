@@ -11,6 +11,7 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
+import { Link, Route } from 'react-router-dom';
 import * as actions from "../../actions"
 import Recipe from '../Recipe'
 
@@ -22,6 +23,7 @@ class Home extends Component {
     this.handleSearch = this.handleSearch.bind(this)
     this.handleIngredient = this.handleIngredient.bind(this)
     this.fetchSearch = this.fetchSearch.bind(this)
+    this.handleRecipeClick = this.handleRecipeClick.bind(this)
     this.state = {
       term: "",
       ingredients: ["milk"],
@@ -44,6 +46,9 @@ class Home extends Component {
       ingredients.splice(foundIngredient, 1)
     }
     this.setState({ ingredients })
+  }
+  handleRecipeClick(id) {
+    this.props.getRecipeById(recipe.id)
   }
   render() {
     const { term, ingredients } = this.state
@@ -78,14 +83,16 @@ class Home extends Component {
           <List>
             {recipes.map((recipe) => (
               <ListItem key={recipe.id}>
-                <ListItemText primary={recipe.name} onClick={() => this.props.getRecipeById(recipe.id)}/>
+                <Link to={ `/${recipe.id}` } >
+                  <ListItemText primary={recipe.name} />
+                </Link>
               </ListItem>
             ))}
           </List>
         )}
         {isLoading && <LinearProgress />}
         <Divider />
-        <Recipe />
+        <Route path="/:id" component={Recipe} />
       </HomeWrapper>
     )
   }
