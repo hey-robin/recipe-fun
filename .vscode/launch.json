@@ -1,0 +1,57 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Chrome",
+      "port": 9229,
+      "request": "attach",
+      "type": "pwa-chrome",
+      "webRoot": "${workspaceFolder}",
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**",
+        "**/node_modules/yarn/**",
+        "**/lib/**",
+        "<node_internals>/**",
+        "${workspaceRoot}/.yarn/cache/**",
+        "${workspaceRoot}/.yarn/__virtual__/**",
+        "${workspaceRoot}/.yarn/releases/**",
+        "${workspaceRoot}/.yarn/unplugged/**",
+        "${workspaceRoot}/.pnp.cjs"
+      ]
+    },
+    {
+      "name": "Attach by Process ID",
+      "processId": "${command:PickProcess}",
+      "request": "attach",
+      "skipFiles": ["${workspaceRoot}/node_modules/**", "<node_internals>/**"],
+      "type": "pwa-node"
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "runtimeExecutable": "yarn",
+      "name": "debug",
+      "cwd": "${workspaceFolder}/",
+      "runtimeArgs": ["start"],
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**",
+        "**/node_modules/yarn/**",
+        "**/lib/**",
+        "<node_internals>/**",
+        "${workspaceRoot}/.yarn/cache/**",
+        "${workspaceRoot}/.yarn/__virtual__/**",
+        "${workspaceRoot}/.yarn/releases/**",
+        "${workspaceRoot}/.yarn/unplugged/**",
+        "${workspaceRoot}/.pnp.cjs"
+      ],
+      "internalConsoleOptions": "neverOpen",
+      "console": "integratedTerminal"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug It All",
+      "configurations": ["debug"]
+    }
+  ]
+}
