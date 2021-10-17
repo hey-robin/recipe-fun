@@ -2,6 +2,7 @@ import { GET_RECIPE, RECEIVE_RECIPE, FAIL_RECIPE } from "../actions"
 
 const initialState = {
   recipeDetails: null,
+  isLoading: false,
 }
 
 const recipeFetching = (state) => {

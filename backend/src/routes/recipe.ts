@@ -7,9 +7,8 @@ export const recipeMiddleware = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { _id, name, ingredients, instructions} = await RecipeModel.findById(req.params.id)
+    const { name, ingredients, instructions } = await RecipeModel.findById(req.params.id)
     const normalizedRecipe = {
-      id: _id,
       name,
       ingredients,
       instructions,

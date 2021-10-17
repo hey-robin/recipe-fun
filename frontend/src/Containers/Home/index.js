@@ -12,6 +12,7 @@ import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import * as actions from "../../actions"
+import Recipe from '../Recipe'
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
@@ -84,11 +85,7 @@ class Home extends Component {
         )}
         {isLoading && <LinearProgress />}
         <Divider />
-        {/*
-          TODO: Add a recipe component here.
-          I'm expecting you to have it return null or a component based on the redux state, not passing any props from here
-          I want to see how you wire up a component with connect and build actions.
-        */}
+        <Recipe />
       </HomeWrapper>
     )
   }
