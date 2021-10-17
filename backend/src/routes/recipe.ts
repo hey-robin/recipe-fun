@@ -7,8 +7,14 @@ export const recipeMiddleware = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const recipe = await RecipeModel.findById(req.params.id)
-    res.send(recipe)
+    const { _id, name, ingredients, instructions} = await RecipeModel.findById(req.params.id)
+    const normalizedRecipe = {
+      id: _id,
+      name,
+      ingredients,
+      instructions,
+    }
+    res.send(normalizedRecipe);
   } catch(err) {
     next(new Error(`Could not find recipe with id: ${req.params.id}`))
   }
