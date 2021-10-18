@@ -12,13 +12,6 @@
     "start": "nodemon -e ts --exec yarn dev-be",
     "dev-be": "node -r esbuild-register --inspect=0.0.0.0:9229 src/index.ts"
   },
-  "config": {
-    "mongodbMemoryServer": {
-    "debug": "1",
-    "arch": "x64",
-    "version": "4.4.1"
-    }
-  },
   "dependencies": {
     "express": "4.17.1",
     "lodash": "4.17.15",

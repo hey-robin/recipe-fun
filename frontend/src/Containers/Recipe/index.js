@@ -2,7 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom";
 import { getRecipeById } from "../../actions"
-import { Name, RecipeInstructions, IngredientListItem, Heading } from "./styles"
+import Ingredients from './Ingredients'
+import { Name, RecipeInstructions, Heading } from "./styles"
 
 
 function Recipe() {
@@ -15,6 +16,7 @@ function Recipe() {
 
   const { recipeDetails } = useSelector(state => state.recipe)
   if (!recipeDetails) return null
+
   const { name, ingredients, instructions } = recipeDetails
   return <>
     <Name>{name}</Name>
@@ -25,18 +27,5 @@ function Recipe() {
   </>
 }
 
-function Ingredients({ ingredients }) {
-  return <ul>
-    {ingredients.map((ingredient) => {
-      const { name, unit, amount, _id: id } = ingredient
-      return <IngredientListItem key={id}>{amount} {unit} {name}</IngredientListItem>
-    })}
-  </ul>
-}
-
-const mapStateToProps = (state) => {
-  const { recipe } = state
-  return { ...recipe }
-}
 
 export default Recipe
