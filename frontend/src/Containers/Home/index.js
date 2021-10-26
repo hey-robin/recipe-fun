@@ -1,6 +1,5 @@
-import React, { Component } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
+import React from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { HomeWrapper } from "./styles"
 import Input from "@material-ui/core/Input"
 import Checkbox from "@material-ui/core/Checkbox"
@@ -11,99 +10,81 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
+import { Link, Route } from 'react-router-dom';
 import * as actions from "../../actions"
+import Recipe from '../Recipe'
 
 const ingredientList = ["flour", "sugar", "salt", "butter", "milk"]
 
-class Home extends Component {
-  constructor(props) {
-    super(props)
-    this.handleSearch = this.handleSearch.bind(this)
-    this.handleIngredient = this.handleIngredient.bind(this)
-    this.fetchSearch = this.fetchSearch.bind(this)
-    this.state = {
-      term: "",
-      ingredients: ["milk"],
-    }
+function Home() {
+  const [term, setTerm] = React.useState("")
+  const [ingredients, setIngredients] = React.useState(["milk"])
+  const dispatch = useDispatch();
+  const search = useSelector(state => ({ ...state.search }))
+
+  const fetchSearch = () => {
+    dispatch(actions.searchRecipes(term, ingredients))
   }
-  fetchSearch() {
-    // TODO: something is missing here for fetching
-  }
-  handleSearch(event) {
+
+  const handleSearch = (event) => {
     const term = event.target.value
-    this.setState({ term })
+    setTerm(term)
   }
-  handleIngredient(ingredient, event) {
-    const { ingredients } = { ...this.state }
+
+  const handleIngredient = (ingredient, event) => {
+    const newIngredients = [ ...ingredients ]
     if (event.target.checked) {
-      ingredients.push(ingredient)
+      newIngredients.push(ingredient)
     } else {
-      const foundIngredient = ingredients.indexOf(ingredient)
-      ingredients.splice(foundIngredient, 1)
+      const foundIngredient = newIngredients.indexOf(ingredient)
+      newIngredients.splice(foundIngredient, 1)
     }
-    this.setState({ ingredients })
+    setIngredients(newIngredients)
   }
-  render() {
-    const { term, ingredients } = this.state
-    const { recipes, isLoading } = this.props
-    return (
-      <HomeWrapper>
-        <Input
-          autoFocus={true}
-          fullWidth={true}
-          onChange={this.handleSearch}
-          value={term}
-        />
-        <div>
-          <h3>Ingredients on hand</h3>
-          {ingredientList.map((ingredient) => (
-            <FormControlLabel
-              key={ingredient}
-              control={
-                <Checkbox
-                  checked={ingredients.includes(ingredient)}
-                  onChange={this.handleIngredient.bind(this, ingredient)}
-                  value={ingredient}
-                />
-              }
-              label={ingredient}
-            />
-          ))}
-        </div>
-        <Button onClick={this.fetchSearch}>search</Button>
-        <Divider />
-        {recipes && (
-          <List>
-            {recipes.map((recipe) => (
-              <ListItem key={recipe.id}>
+
+  const { recipes, isLoading } = search
+  return (
+    <HomeWrapper>
+      <Input
+        autoFocus={true}
+        fullWidth={true}
+        onChange={handleSearch}
+        value={term}
+      />
+      <div>
+        <h3>Ingredients on hand</h3>
+        {ingredientList.map((ingredient) => (
+          <FormControlLabel
+            key={ingredient}
+            control={
+              <Checkbox
+                checked={ingredients.includes(ingredient)}
+                onChange={handleIngredient.bind(this, ingredient)}
+                value={ingredient}
+              />
+            }
+            label={ingredient}
+          />
+        ))}
+      </div>
+      <Button onClick={fetchSearch}>search</Button>
+      <Divider />
+      {recipes && (
+        <List>
+          {recipes.map((recipe) => (
+            <ListItem key={recipe.id}>
+              <Link to={ `/${recipe.id}` } >
                 <ListItemText primary={recipe.name} />
-              </ListItem>
-            ))}
-          </List>
-        )}
-        {isLoading && <LinearProgress />}
-        <Divider />
-        {/*
-          TODO: Add a recipe component here.
-          I'm expecting you to have it return null or a component based on the redux state, not passing any props from here
-          I want to see how you wire up a component with connect and build actions.
-        */}
-      </HomeWrapper>
-    )
-  }
-}
-
-const mapStateToProps = (state) => {
-  const { search } = state
-  return { ...search }
-}
-
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      searchRecipes: actions.searchRecipes,
-    },
-    dispatch
+              </Link>
+            </ListItem>
+          ))}
+        </List>
+      )}
+      {isLoading && <LinearProgress />}
+      <Divider />
+      <Route path="/:id" component={Recipe} />
+    </HomeWrapper>
   )
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Home

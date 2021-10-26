@@ -6,12 +6,15 @@ import { createStore, applyMiddleware } from "redux"
 import { hot } from "react-hot-loader"
 import Home from "./Containers/Home"
 import reducers from "./reducers"
+import { BrowserRouter as Router } from 'react-router-dom'
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware))
 
 const WrappedHome = () => (
   <Provider store={store}>
-    <Home />
+    <Router>
+      <Home />
+    </Router>
   </Provider>
 )
 

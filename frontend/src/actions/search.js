@@ -16,7 +16,7 @@ const failedSearch = (payload) => ({
   payload,
 })
 
-export const executeSearch = async (name, ingredients) => {
+const executeSearch = async (name, ingredients) => {
   const response = await fetch("/api/search", {
     method: "POST",
     headers: {
@@ -28,12 +28,11 @@ export const executeSearch = async (name, ingredients) => {
   return searchResults
 }
 
-// TODO: fix action
 export const searchRecipes = (name, ingredients) => {
   return (dispatch) => {
     dispatch(fetchingSearch())
     return executeSearch(name, ingredients)
-      .then((res) => fetchedSearch(res))
+      .then((res) => dispatch(fetchedSearch(res)))
       .catch((err) => dispatch(failedSearch(err)))
   }
 }
